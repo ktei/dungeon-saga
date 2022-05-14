@@ -1,11 +1,14 @@
 import { Direction } from '@root/components/enums'
-import UserInput from '@root/components/UserInput'
+import PlayerInput from '@root/components/PlayerInput'
 import Phaser from 'phaser'
 
-export default class UserInputSystem {
+export default class PlayerInputSystem {
   private cursors: Phaser.Types.Input.Keyboard.CursorKeys
 
-  constructor(sprite: Phaser.Physics.Arcade.Sprite, private input: UserInput) {
+  constructor(
+    sprite: Phaser.Physics.Arcade.Sprite,
+    private input: PlayerInput
+  ) {
     this.cursors = sprite.scene.input.keyboard.createCursorKeys()
   }
 
