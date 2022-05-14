@@ -1,10 +1,10 @@
 import AnimKeys from '@root/anims/AnimKeys'
 import Animation from '@root/components/Animation'
-import UserInput from '@root/components/UserInput'
+import PlayerInput from '@root/components/PlayerInput'
 import Movement from '@root/components/Movement'
 import AnimationSystem from '@root/systems/AnimationSystem'
 import MovementSystem from '@root/systems/MovementSystem'
-import UserInputSystem from '@root/systems/UserInputSystem'
+import PlayerInputSystem from '@root/systems/PlayerInputSystem'
 import PlayerSystem from '@root/systems/PlayerSystem'
 import { Direction } from '@root/components/enums'
 
@@ -30,12 +30,12 @@ export default class Faune extends Phaser.Physics.Arcade.Sprite {
     speed: 0,
     direction: Direction.DOWN
   }
-  private userInput: UserInput = {
+  private userInput: PlayerInput = {
     direction: Direction.NONE
   }
   private animationSystem: AnimationSystem
   private movementSystem: MovementSystem
-  private inputSystem: UserInputSystem
+  private inputSystem: PlayerInputSystem
   private playerSystem: PlayerSystem
 
   constructor(
@@ -48,7 +48,7 @@ export default class Faune extends Phaser.Physics.Arcade.Sprite {
     super(scene, x, y, texture, frame)
     this.animationSystem = new AnimationSystem(this, this.animation)
     this.movementSystem = new MovementSystem(this, this.movement)
-    this.inputSystem = new UserInputSystem(this, this.userInput)
+    this.inputSystem = new PlayerInputSystem(this, this.userInput)
 
     this.playerSystem = new PlayerSystem(
       this.userInput,

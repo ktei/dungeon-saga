@@ -2,11 +2,11 @@ import AnimKeys from '@root/anims/AnimKeys'
 import Animation from '@root/components/Animation'
 import { Direction } from '@root/components/enums'
 import Movement from '@root/components/Movement'
-import UserInput from '@root/components/UserInput'
+import PlayerInput from '@root/components/PlayerInput'
 
 export default class PlayerSystem {
   constructor(
-    private userInput: UserInput,
+    private userInput: PlayerInput,
     private movement: Movement,
     private animation: Animation
   ) {}
