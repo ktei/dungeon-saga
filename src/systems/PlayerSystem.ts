@@ -14,41 +14,61 @@ export default class PlayerSystem {
   public update(): void {
     switch (this.userInput.direction) {
       case Direction.UP:
-        this.movement.direction = Direction.UP
-        this.movement.speed = 100
-        this.animation.key = AnimKeys.Faune.RunUp
+        this.moveUp()
         break
       case Direction.RIGHT:
-        this.movement.direction = Direction.RIGHT
-        this.movement.speed = 100
-        this.animation.key = AnimKeys.Faune.RunSide
+        this.moveRight()
         break
       case Direction.DOWN:
-        this.movement.direction = Direction.DOWN
-        this.movement.speed = 100
-        this.animation.key = AnimKeys.Faune.RunDown
+        this.moveDown()
         break
       case Direction.LEFT:
-        this.movement.direction = Direction.LEFT
-        this.movement.speed = 100
-        this.animation.key = AnimKeys.Faune.RunSide
+        this.moveLeft()
         break
       default:
-        this.movement.speed = 0
-        switch (this.movement.direction) {
-          case Direction.UP:
-            this.animation.key = AnimKeys.Faune.IdleUp
-            break
-          case Direction.RIGHT:
-            this.animation.key = AnimKeys.Faune.IdleSide
-            break
-          case Direction.DOWN:
-            this.animation.key = AnimKeys.Faune.IdleDown
-            break
-          case Direction.LEFT:
-            this.animation.key = AnimKeys.Faune.IdleSide
-            break
-        }
+        this.stop()
+    }
+  }
+
+  private moveUp(): void {
+    this.movement.direction = Direction.UP
+    this.movement.speed = 100
+    this.animation.key = AnimKeys.Faune.RunUp
+  }
+
+  private moveRight(): void {
+    this.movement.direction = Direction.RIGHT
+    this.movement.speed = 100
+    this.animation.key = AnimKeys.Faune.RunSide
+  }
+
+  private moveDown(): void {
+    this.movement.direction = Direction.DOWN
+    this.movement.speed = 100
+    this.animation.key = AnimKeys.Faune.RunDown
+  }
+
+  private moveLeft(): void {
+    this.movement.direction = Direction.LEFT
+    this.movement.speed = 100
+    this.animation.key = AnimKeys.Faune.RunSide
+  }
+
+  private stop(): void {
+    this.movement.speed = 0
+    switch (this.movement.direction) {
+      case Direction.UP:
+        this.animation.key = AnimKeys.Faune.IdleUp
+        break
+      case Direction.RIGHT:
+        this.animation.key = AnimKeys.Faune.IdleSide
+        break
+      case Direction.DOWN:
+        this.animation.key = AnimKeys.Faune.IdleDown
+        break
+      case Direction.LEFT:
+        this.animation.key = AnimKeys.Faune.IdleSide
+        break
     }
   }
 }
