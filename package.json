@@ -1,0 +1,22 @@
+{
+  "name": "dungeon-saga",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "lint": "eslint . --ext .ts"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.23.0",
+    "@typescript-eslint/parser": "^5.23.0",
+    "eslint": "^8.15.0",
+    "prettier": "^2.6.2",
+    "typescript": "^4.5.4",
+    "vite": "^2.9.9"
+  },
+  "dependencies": {
+    "phaser": "^3.55.2"
+  }
+}
