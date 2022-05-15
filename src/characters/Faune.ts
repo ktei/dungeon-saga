@@ -9,6 +9,7 @@ import { Direction, Sprite } from '@root/components/types'
 export default class Faune extends GameObject<Sprite> {
   constructor(scene: Phaser.Scene, x: number, y: number) {
     super(scene.physics.add.sprite(x, y, 'faune', undefined))
+    this.movement.direction = Direction.DOWN
     this.engine.body.setSize(16, 16)
     this.addComponent(new Input(this))
     this.addComponent(new Player(this))
@@ -41,28 +42,3 @@ export default class Faune extends GameObject<Sprite> {
     return null
   }
 }
-
-// Phaser.GameObjects.GameObjectFactory.register(
-//   'faune',
-//   function (
-//     this: Phaser.GameObjects.GameObjectFactory,
-//     x: number,
-//     y: number,
-//     texture: string,
-//     frame?: string | number
-//   ) {
-//     const sprite = new Faune(this.scene, x, y, texture, frame)
-
-//     this.displayList.add(sprite)
-//     this.updateList.add(sprite)
-
-//     this.scene.physics.world.enableBody(
-//       sprite,
-//       Phaser.Physics.Arcade.DYNAMIC_BODY
-//     )
-
-//     sprite.body.setSize(16, 16)
-
-//     return sprite
-//   }
-// )
