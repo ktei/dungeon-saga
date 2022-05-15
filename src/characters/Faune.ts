@@ -1,92 +1,68 @@
 import AnimKeys from '@root/anims/AnimKeys'
 import Animation from '@root/components/Animation'
-import PlayerInput from '@root/components/PlayerInput'
+import Input from '@root/components/Input'
 import Movement from '@root/components/Movement'
-import AnimationSystem from '@root/systems/AnimationSystem'
-import MovementSystem from '@root/systems/MovementSystem'
-import PlayerInputSystem from '@root/systems/PlayerInputSystem'
-import PlayerSystem from '@root/systems/PlayerSystem'
-import { Direction } from '@root/components/enums'
+import { GameObject } from '@root/components/GameObjects'
+import Player from '@root/components/Player'
+import { Direction, Sprite } from '@root/components/types'
 
-declare global {
-  // eslint-disable-next-line @typescript-eslint/no-namespace
-  namespace Phaser.GameObjects {
-    interface GameObjectFactory {
-      faune(
-        x: number,
-        y: number,
-        texture: string,
-        frame?: string | number
-      ): Faune
+export default class Faune extends GameObject<Sprite> {
+  constructor(scene: Phaser.Scene, x: number, y: number) {
+    super(scene.physics.add.sprite(x, y, 'faune', undefined))
+    this.engine.body.setSize(16, 16)
+    this.addComponent(new Input(this))
+    this.addComponent(new Player(this))
+    this.addComponent(new Movement(this))
+    this.addComponent(new Animation(this))
+  }
+
+  public getAnimKey(): string | null {
+    if (this.movement.speed > 0) {
+      switch (this.movement.direction) {
+        case Direction.UP:
+          return AnimKeys.Faune.RunUp
+        case Direction.LEFT:
+        case Direction.RIGHT:
+          return AnimKeys.Faune.RunSide
+        case Direction.DOWN:
+          return AnimKeys.Faune.RunDown
+      }
+    } else {
+      switch (this.movement.direction) {
+        case Direction.UP:
+          return AnimKeys.Faune.IdleUp
+        case Direction.LEFT:
+        case Direction.RIGHT:
+          return AnimKeys.Faune.IdleSide
+        case Direction.DOWN:
+          return AnimKeys.Faune.IdleDown
+      }
     }
+    return null
   }
 }
 
-export default class Faune extends Phaser.Physics.Arcade.Sprite {
-  private animation: Animation = {
-    key: AnimKeys.Faune.IdleDown
-  }
-  private movement: Movement = {
-    speed: 0,
-    direction: Direction.DOWN
-  }
-  private userInput: PlayerInput = {
-    direction: Direction.NONE
-  }
-  private animationSystem: AnimationSystem
-  private movementSystem: MovementSystem
-  private inputSystem: PlayerInputSystem
-  private playerSystem: PlayerSystem
+// Phaser.GameObjects.GameObjectFactory.register(
+//   'faune',
+//   function (
+//     this: Phaser.GameObjects.GameObjectFactory,
+//     x: number,
+//     y: number,
+//     texture: string,
+//     frame?: string | number
+//   ) {
+//     const sprite = new Faune(this.scene, x, y, texture, frame)
 
-  constructor(
-    scene: Phaser.Scene,
-    x: number,
-    y: number,
-    texture: string,
-    frame?: string | number
-  ) {
-    super(scene, x, y, texture, frame)
-    this.animationSystem = new AnimationSystem(this, this.animation)
-    this.movementSystem = new MovementSystem(this, this.movement)
-    this.inputSystem = new PlayerInputSystem(this, this.userInput)
+//     this.displayList.add(sprite)
+//     this.updateList.add(sprite)
 
-    this.playerSystem = new PlayerSystem(
-      this.userInput,
-      this.movement,
-      this.animation
-    )
-  }
+//     this.scene.physics.world.enableBody(
+//       sprite,
+//       Phaser.Physics.Arcade.DYNAMIC_BODY
+//     )
 
-  public update(): void {
-    // console.log(this.userInput.direction)
-    this.playerSystem.update()
-    this.inputSystem.update()
-    this.movementSystem.update()
-    this.animationSystem.update()
-  }
-}
+//     sprite.body.setSize(16, 16)
 
-Phaser.GameObjects.GameObjectFactory.register(
-  'faune',
-  function (
-    this: Phaser.GameObjects.GameObjectFactory,
-    x: number,
-    y: number,
-    texture: string,
-    frame?: string | number
-  ) {
-    const sprite = new Faune(this.scene, x, y, texture, frame)
-
-    this.displayList.add(sprite)
-    this.updateList.add(sprite)
-
-    this.scene.physics.world.enableBody(
-      sprite,
-      Phaser.Physics.Arcade.DYNAMIC_BODY
-    )
-
-    sprite.body.setSize(16, 16)
-
-    return sprite
-  }
-)
+//     return sprite
+//   }
+// )

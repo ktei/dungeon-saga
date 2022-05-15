@@ -20,20 +20,22 @@ export default class Dungeon extends Phaser.Scene {
     const wallsLayer = map.createLayer('Walls', tileset)
     wallsLayer.setCollisionByProperty({ collides: true })
 
-    this.faune = this.add.faune(128, 128, 'faune')
+    this.faune = new Faune(this, 128, 128)
 
     this.cameras.main.startFollow(
-      this.faune,
+      this.faune.engine,
       true,
       undefined,
       undefined,
       -100,
       -150
     )
+
+    this.physics.add.collider(this.faune.engine, wallsLayer)
   }
 
-  update(): void {
-    this.faune.update()
+  update(time: number, delta: number): void {
+    this.faune.update(time, delta)
   }
 
   private createAnims(): void {
