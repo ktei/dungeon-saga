@@ -12,14 +12,13 @@ export default class Movement implements Component {
 
     const {
       engine,
-      movement,
-      movement: { speed }
+      movement: { speed, direction }
     } = this.g
     if (speed === 0) {
       engine.setVelocity(0, 0)
       return
     }
-    switch (movement.direction) {
+    switch (direction) {
       case Direction.UP:
         engine.setVelocity(0, -speed)
         break

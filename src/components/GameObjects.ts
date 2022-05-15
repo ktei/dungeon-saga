@@ -29,8 +29,4 @@ export abstract class GameObject<T extends Sprite | Image>
   protected addComponent(component: Component): void {
     this.components.push(component)
   }
-
-  public getAnimKey(): string | null {
-    return null
-  }
 }

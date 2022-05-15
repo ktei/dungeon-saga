@@ -1,10 +1,10 @@
 import AnimKeys from '@root/anims/AnimKeys'
-import Animation from '@root/components/Animation'
 import Input from '@root/components/Input'
 import Movement from '@root/components/Movement'
 import { GameObject } from '@root/components/GameObjects'
 import Player from '@root/components/Player'
 import { Direction, Sprite } from '@root/components/types'
+import Component from '@root/components/Component'
 
 export default class Faune extends GameObject<Sprite> {
   constructor(scene: Phaser.Scene, x: number, y: number) {
@@ -14,31 +14,48 @@ export default class Faune extends GameObject<Sprite> {
     this.addComponent(new Input(this))
     this.addComponent(new Player(this))
     this.addComponent(new Movement(this))
-    this.addComponent(new Animation(this))
+    this.addComponent(new FauneAnimation(this))
   }
+}
 
-  public getAnimKey(): string | null {
-    if (this.movement.speed > 0) {
-      switch (this.movement.direction) {
+class FauneAnimation implements Component {
+  constructor(private g: GameObject<Sprite>) {}
+
+  public update(): void {
+    if (!this.g.engine) {
+      return
+    }
+
+    const {
+      movement: { speed, direction },
+      engine
+    } = this.g
+    if (speed > 0) {
+      switch (direction) {
         case Direction.UP:
-          return AnimKeys.Faune.RunUp
+          engine.play(AnimKeys.Faune.RunUp, true)
+          break
         case Direction.LEFT:
         case Direction.RIGHT:
-          return AnimKeys.Faune.RunSide
+          engine.play(AnimKeys.Faune.RunSide, true)
+          break
         case Direction.DOWN:
-          return AnimKeys.Faune.RunDown
+          engine.play(AnimKeys.Faune.RunDown, true)
+          break
       }
     } else {
-      switch (this.movement.direction) {
+      switch (direction) {
         case Direction.UP:
-          return AnimKeys.Faune.IdleUp
+          engine.play(AnimKeys.Faune.IdleUp, true)
+          break
         case Direction.LEFT:
         case Direction.RIGHT:
-          return AnimKeys.Faune.IdleSide
+          engine.play(AnimKeys.Faune.IdleSide, true)
+          break
         case Direction.DOWN:
-          return AnimKeys.Faune.IdleDown
+          engine.play(AnimKeys.Faune.IdleDown, true)
+          break
       }
     }
-    return null
   }
 }
