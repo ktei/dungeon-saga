@@ -4,7 +4,11 @@ import path from 'path'
 const config: UserConfig = {
   resolve: {
     alias: {
-      '@root': path.join(__dirname, 'src')
+      '@/anims': path.join(__dirname, 'src', 'anims'),
+      '@/characters': path.join(__dirname, 'src', 'characters'),
+      '@/components': path.join(__dirname, 'src', 'components'),
+      '@/npcs': path.join(__dirname, 'src', 'npcs'),
+      '@/scenes': path.join(__dirname, 'src', 'scenes')
     }
   }
 }

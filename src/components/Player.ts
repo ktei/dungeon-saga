@@ -1,6 +1,6 @@
-import Component from '@root/components/Component'
-import { GameObject } from '@root/components/GameObjects'
-import { Direction, Sprite } from '@root/components/types'
+import Component from '@/components/Component'
+import { GameObject } from '@/components/GameObjects'
+import { Direction, Sprite } from '@/components/types'
 
 export default class Player implements Component {
   constructor(private g: GameObject<Sprite>) {}

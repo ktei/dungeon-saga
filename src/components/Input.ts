@@ -1,6 +1,6 @@
-import Component from '@root/components/Component'
-import { GameObject } from '@root/components/GameObjects'
-import { Sprite, Image, Direction } from '@root/components/types'
+import Component from '@/components/Component'
+import { GameObject } from '@/components/GameObjects'
+import { Sprite, Image, Direction } from '@/components/types'
 
 export default class Input implements Component {
   private cursors: Phaser.Types.Input.Keyboard.CursorKeys

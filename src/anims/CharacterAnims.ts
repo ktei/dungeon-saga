@@ -1,10 +1,6 @@
 import Phaser from 'phaser'
 import AnimKeys from './AnimKeys'
 
-export const createMore = () => {
-  console.log('create')
-}
-
 export const createCharacterAnims = (
   anims: Phaser.Animations.AnimationManager
 ) => {

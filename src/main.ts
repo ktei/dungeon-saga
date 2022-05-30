@@ -1,6 +1,6 @@
-import Dungeon from '@root/scenes/Dungeon'
+import Dungeon from '@/scenes/Dungeon'
 import Phaser from 'phaser'
-import Preloader from '@root/scenes/Preloader'
+import Preloader from '@/scenes/Preloader'
 
 const config: Phaser.Types.Core.GameConfig = {
   type: Phaser.AUTO,

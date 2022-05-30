@@ -7,10 +7,10 @@ export default abstract class AnimKeys {
     RunUp: 'faune-run-up',
     RunSide: 'faune-run-side',
     Faint: 'faune-faint'
-  }
+  } as const
 
-  public static readonly Door = {
-    Open: 'door-open',
-    Closed: 'door-closed'
-  }
+  public static readonly Lizard = {
+    Idle: 'lizard-idle',
+    Run: 'lizard-run'
+  } as const
 }

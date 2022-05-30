@@ -1,11 +1,11 @@
-import Component from '@root/components/Component'
+import Component from '@/components/Component'
 import {
   Sprite,
   Image,
   Direction,
   Movement,
   PlayerInput
-} from '@root/components/types'
+} from '@/components/types'
 
 export abstract class GameObject<T extends Sprite | Image>
   implements Component

@@ -1,24 +1,9 @@
-import AnimKeys from '@root/anims/AnimKeys'
-import Input from '@root/components/Input'
-import Movement from '@root/components/Movement'
-import { GameObject } from '@root/components/GameObjects'
-import Player from '@root/components/Player'
-import { Direction, Sprite } from '@root/components/types'
-import Component from '@root/components/Component'
+import AnimKeys from '@/anims/AnimKeys'
+import { GameObject } from '@/components/GameObjects'
+import { Direction, Sprite } from '@/components/types'
+import Component from '@/components/Component'
 
-export default class Faune extends GameObject<Sprite> {
-  constructor(scene: Phaser.Scene, x: number, y: number) {
-    super(scene.physics.add.sprite(x, y, 'faune', undefined))
-    this.movement.direction = Direction.DOWN
-    this.engine.body.setSize(16, 16)
-    this.addComponent(new Input(this))
-    this.addComponent(new Player(this))
-    this.addComponent(new Movement(this))
-    this.addComponent(new FauneAnimation(this))
-  }
-}
-
-class FauneAnimation implements Component {
+export default class FauneAnimation implements Component {
   constructor(private g: GameObject<Sprite>) {}
 
   public update(): void {

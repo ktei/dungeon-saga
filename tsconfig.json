@@ -15,9 +15,13 @@
     "noUnusedParameters": true,
     "noImplicitReturns": true,
     "skipLibCheck": true,
-    "baseUrl": "./src",
+    "baseUrl": ".",
     "paths": {
-      "@root/*": ["./*"]
+      "@/anims/*": ["./src/anims/*"],
+      "@/characters/*": ["./src/characters/*"],
+      "@/components/*": ["./src/components/*"],
+      "@/npcs/*": ["./src/npcs/*"],
+      "@/scenes/*": ["./src/scenes/*"]
     }
   },
   "include": ["src", "**/*.ts", "vite.config.js"]
