@@ -7,7 +7,7 @@ export default class Preloader extends Phaser.Scene {
 
   preload(): void {
     this.load.image('tiles', 'tiles/dungeon.png')
-    this.load.tilemapTiledJSON('dungeon', 'tiles/dungeon.json')
+    this.load.tilemapTiledJSON('dungeon', 'tiles/dungeon2.json')
 
     this.load.atlas('faune', 'characters/faune.png', 'characters/faune.json')
     this.load.atlas('door', 'items/door.png', 'items/door.json')
