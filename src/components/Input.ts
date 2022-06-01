@@ -1,11 +1,11 @@
 import Component from '@/components/Component'
-import { GameObject } from '@/components/GameObjects'
+import { Entity } from '@/components/Entity'
 import { Sprite, Image, Direction } from '@/components/types'
 
 export default class Input implements Component {
   private cursors: Phaser.Types.Input.Keyboard.CursorKeys
 
-  constructor(private g: GameObject<Sprite | Image>) {
+  constructor(private g: Entity<Sprite | Image>) {
     this.cursors = g.engine.scene.input.keyboard.createCursorKeys()
   }
 

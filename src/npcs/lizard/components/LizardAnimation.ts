@@ -1,10 +1,10 @@
 import AnimKeys from '@/anims/AnimKeys'
 import Component from '@/components/Component'
-import { GameObject } from '@/components/GameObjects'
+import { Entity } from '@/components/Entity'
 import { Sprite } from '@/components/types'
 
 export default class FauneAnimation implements Component {
-  constructor(private g: GameObject<Sprite>) {}
+  constructor(private g: Entity<Sprite>) {}
 
   public update(): void {
     if (!this.g.engine) {

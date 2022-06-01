@@ -1,9 +1,9 @@
 import Component from '@/components/Component'
-import { GameObject } from '@/components/GameObjects'
+import { Entity } from '@/components/Entity'
 import { Sprite, Image, Direction } from '@/components/types'
 
 export default class Movement implements Component {
-  constructor(private g: GameObject<Sprite | Image>) {}
+  constructor(private g: Entity<Sprite | Image>) {}
 
   public update() {
     if (!this.g.engine || !this.g.movement) {

@@ -3,10 +3,10 @@ import Faune from '@/characters/faune/Faune'
 import '@/characters/faune/Faune'
 import { createAnims } from '@/anims/animsFactory'
 import Lizard from '@/npcs/lizard/Lizard'
+import GameScene from '@/scenes/GameScene'
 
-export default class Dungeon extends Phaser.Scene {
+export default class Dungeon extends GameScene {
   private faune!: Faune
-  private lizards: Lizard[] = []
 
   constructor() {
     super('dungeon')
@@ -22,7 +22,7 @@ export default class Dungeon extends Phaser.Scene {
     const wallsLayer = map.createLayer('Walls', tileset)
     wallsLayer.setCollisionByProperty({ collides: true })
 
-    this.faune = new Faune(this, 128, 128)
+    this.addEntities((this.faune = new Faune(this, 128, 128)))
 
     // put some lizards
     const lizardsGroup = this.physics.add.group({
@@ -33,7 +33,10 @@ export default class Dungeon extends Phaser.Scene {
       }
     })
 
-    this.lizards.push(new Lizard(lizardsGroup, 256, 256))
+    this.addEntities(
+      new Lizard(lizardsGroup, 256, 256),
+      new Lizard(lizardsGroup, 450, 312)
+    )
 
     this.cameras.main.startFollow(
       this.faune.engine,
@@ -53,10 +56,5 @@ export default class Dungeon extends Phaser.Scene {
       undefined,
       this
     )
-  }
-
-  update(time: number, delta: number): void {
-    this.faune.update(time, delta)
-    this.lizards.forEach(x => x.update(time, delta))
   }
 }

@@ -1,9 +1,9 @@
 import Component from '@/components/Component'
-import { GameObject } from '@/components/GameObjects'
+import { Entity } from '@/components/Entity'
 import { Direction, Sprite } from '@/components/types'
 
 export default class Player implements Component {
-  constructor(private g: GameObject<Sprite>) {}
+  constructor(private g: Entity<Sprite>) {}
 
   public update(): void {
     const { input } = this.g

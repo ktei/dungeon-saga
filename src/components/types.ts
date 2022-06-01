@@ -1,5 +1,6 @@
 export type Sprite = Phaser.Physics.Arcade.Sprite
 export type Image = Phaser.Physics.Arcade.Image
+export type GameObject = Sprite | Image
 
 export enum Direction {
   NONE = -1,

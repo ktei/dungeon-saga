@@ -21,7 +21,9 @@
       "@/characters/*": ["./src/characters/*"],
       "@/components/*": ["./src/components/*"],
       "@/npcs/*": ["./src/npcs/*"],
-      "@/scenes/*": ["./src/scenes/*"]
+      "@/scenes/*": ["./src/scenes/*"],
+      "@/constants/*": ["./src/constants/*"],
+      "@/ai/*": ["./src/ai/*"]
     }
   },
   "include": ["src", "**/*.ts", "vite.config.js"]

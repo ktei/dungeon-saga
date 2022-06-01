@@ -8,7 +8,9 @@ const config: UserConfig = {
       '@/characters': path.join(__dirname, 'src', 'characters'),
       '@/components': path.join(__dirname, 'src', 'components'),
       '@/npcs': path.join(__dirname, 'src', 'npcs'),
-      '@/scenes': path.join(__dirname, 'src', 'scenes')
+      '@/scenes': path.join(__dirname, 'src', 'scenes'),
+      '@/constants': path.join(__dirname, 'src', 'constants'),
+      '@/ai': path.join(__dirname, 'src', 'ai')
     }
   }
 }
