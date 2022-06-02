@@ -1,19 +1,21 @@
-import Component from '@/components/Component'
+import { EntityComponent } from '@/components/Component'
 import { Entity } from '@/components/Entity'
-import { Sprite, Image, Direction } from '@/components/types'
+import { Direction, GameObject } from '@/components/types'
 
-export default class Movement implements Component {
-  constructor(private g: Entity<Sprite | Image>) {}
+export default class Movement extends EntityComponent<GameObject> {
+  constructor(e: Entity<GameObject>) {
+    super(e)
+  }
 
   public update() {
-    if (!this.g.engine || !this.g.movement) {
+    if (!this.entity.engine || !this.entity.movement) {
       return
     }
 
     const {
       engine,
       movement: { speed, direction }
-    } = this.g
+    } = this.entity
     if (speed === 0) {
       engine.setVelocity(0, 0)
       return

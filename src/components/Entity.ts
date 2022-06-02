@@ -6,7 +6,7 @@ import {
   PlayerInput,
   GameObject
 } from '@/components/types'
-import { FAKE_CLIENT_ID } from '@/constants/client'
+import { FAKE_SESSION_ID } from '@/constants/client'
 
 export type Metadata = {
   id: number
@@ -19,14 +19,14 @@ export abstract class Entity<T extends GameObject> implements Component {
   private components: Component[]
   private metadata: Metadata
 
-  constructor(public engine: T, metadata?: Omit<Metadata, 'id'>) {
+  constructor(private _engine: T, metadata?: Omit<Metadata, 'id'>) {
     this.movement = {
       speed: 0,
       direction: Direction.NONE
     }
     this.components = []
     this.metadata = {
-      id: getNextId(FAKE_CLIENT_ID),
+      id: getNextId(FAKE_SESSION_ID),
       ...metadata
     }
   }
@@ -39,11 +39,19 @@ export abstract class Entity<T extends GameObject> implements Component {
     return this.metadata.name
   }
 
+  public get engine(): T {
+    return this._engine
+  }
+
   public update(time: number, delta: number): void {
     this.components.forEach(x => x.update(time, delta))
   }
 
   protected addComponent(component: Component): void {
     this.components.push(component)
+  }
+
+  public destroy(fromScene?: boolean): void {
+    this.components.forEach(x => x.destroy(fromScene))
   }
 }

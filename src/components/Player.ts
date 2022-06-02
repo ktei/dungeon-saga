@@ -1,12 +1,14 @@
-import Component from '@/components/Component'
+import { EntityComponent } from '@/components/Component'
 import { Entity } from '@/components/Entity'
 import { Direction, Sprite } from '@/components/types'
 
-export default class Player implements Component {
-  constructor(private g: Entity<Sprite>) {}
+export default class Player extends EntityComponent<Sprite> {
+  constructor(e: Entity<Sprite>) {
+    super(e)
+  }
 
   public update(): void {
-    const { input } = this.g
+    const { input } = this.entity
     if (!input) {
       return
     }
@@ -29,26 +31,26 @@ export default class Player implements Component {
   }
 
   private moveUp(): void {
-    this.g.movement.direction = Direction.UP
-    this.g.movement.speed = 100
+    this.entity.movement.direction = Direction.UP
+    this.entity.movement.speed = 100
   }
 
   private moveRight(): void {
-    this.g.movement.direction = Direction.RIGHT
-    this.g.movement.speed = 100
+    this.entity.movement.direction = Direction.RIGHT
+    this.entity.movement.speed = 100
   }
 
   private moveDown(): void {
-    this.g.movement.direction = Direction.DOWN
-    this.g.movement.speed = 100
+    this.entity.movement.direction = Direction.DOWN
+    this.entity.movement.speed = 100
   }
 
   private moveLeft(): void {
-    this.g.movement.direction = Direction.LEFT
-    this.g.movement.speed = 100
+    this.entity.movement.direction = Direction.LEFT
+    this.entity.movement.speed = 100
   }
 
   private stop(): void {
-    this.g.movement.speed = 0
+    this.entity.movement.speed = 0
   }
 }

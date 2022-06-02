@@ -1,1 +1,1 @@
-export const FAKE_CLIENT_ID = '1234'
+export const FAKE_SESSION_ID = '1234'

@@ -22,8 +22,7 @@
       "@/components/*": ["./src/components/*"],
       "@/npcs/*": ["./src/npcs/*"],
       "@/scenes/*": ["./src/scenes/*"],
-      "@/constants/*": ["./src/constants/*"],
-      "@/ai/*": ["./src/ai/*"]
+      "@/constants/*": ["./src/constants/*"]
     }
   },
   "include": ["src", "**/*.ts", "vite.config.js"]
