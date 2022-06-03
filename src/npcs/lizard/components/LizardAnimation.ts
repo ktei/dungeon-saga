@@ -1,13 +1,8 @@
 import AnimKeys from '@/anims/AnimKeys'
 import { EntityComponent } from '@/components/Component'
-import { Entity } from '@/components/Entity'
 import { Sprite } from '@/components/types'
 
-export default class FauneAnimation extends EntityComponent<Sprite> {
-  constructor(e: Entity<Sprite>) {
-    super(e)
-  }
-
+export default class LizardAnimation extends EntityComponent<Sprite> {
   public update(): void {
     if (!this.entity.engine) {
       return
@@ -17,6 +12,6 @@ export default class FauneAnimation extends EntityComponent<Sprite> {
       movement: { speed },
       engine
     } = this.entity
-    engine.play(speed > 0 ? AnimKeys.Lizard.Run : AnimKeys.Lizard.Idle)
+    engine.play(speed > 0 ? AnimKeys.Lizard.Run : AnimKeys.Lizard.Idle, true)
   }
 }

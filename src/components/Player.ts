@@ -1,12 +1,7 @@
 import { EntityComponent } from '@/components/Component'
-import { Entity } from '@/components/Entity'
 import { Direction, Sprite } from '@/components/types'
 
 export default class Player extends EntityComponent<Sprite> {
-  constructor(e: Entity<Sprite>) {
-    super(e)
-  }
-
   public update(): void {
     const { input } = this.entity
     if (!input) {

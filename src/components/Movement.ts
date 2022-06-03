@@ -1,12 +1,7 @@
 import { EntityComponent } from '@/components/Component'
-import { Entity } from '@/components/Entity'
 import { Direction, GameObject } from '@/components/types'
 
 export default class Movement extends EntityComponent<GameObject> {
-  constructor(e: Entity<GameObject>) {
-    super(e)
-  }
-
   public update() {
     if (!this.entity.engine || !this.entity.movement) {
       return
