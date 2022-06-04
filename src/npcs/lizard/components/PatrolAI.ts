@@ -1,9 +1,11 @@
 import { EntityComponent } from '@/components/Component'
 import { Entity } from '@/components/Entity'
 import { Direction, Sprite } from '@/components/types'
+import { emitter } from '@/events/bus'
 
 export default class PatrolAI extends EntityComponent<Sprite> {
   private moveEvent: Phaser.Time.TimerEvent
+  private messageEvent: Phaser.Time.TimerEvent
 
   constructor(e: Entity<Sprite>) {
     super(e)
@@ -20,6 +22,17 @@ export default class PatrolAI extends EntityComponent<Sprite> {
       callback: this.changeDirection,
       loop: true
     })
+
+    this.messageEvent = this.entity.engine.scene.time.addEvent({
+      delay: 200,
+      callback: this.sendCoordinate,
+      loop: true
+    })
+  }
+
+  private sendCoordinate = () => {
+    const { engine } = this.entity
+    emitter.emit('message', { x: engine.x, y: engine.y })
   }
 
   private handleTileCollision = (gameObject: Phaser.GameObjects.GameObject) => {
@@ -48,5 +61,6 @@ export default class PatrolAI extends EntityComponent<Sprite> {
   public destroy(): void {
     super.destroy()
     this.moveEvent.destroy()
+    this.messageEvent.destroy()
   }
 }
