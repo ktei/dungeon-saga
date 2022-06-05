@@ -1,12 +1,15 @@
-import Phaser from 'phaser'
-import Faune from '@/characters/faune/Faune'
-import '@/characters/faune/Faune'
 import { createAnims } from '@/anims/animsFactory'
+import '@/characters/faune/Faune'
+import Faune from '@/characters/faune/Faune'
+import { emitter } from '@/events/hub'
+import { SEND_DATA } from '@/events/types'
 import Lizard from '@/npcs/lizard/Lizard'
 import GameScene from '@/scenes/GameScene'
+import Phaser from 'phaser'
 
 export default class Dungeon extends GameScene {
   private faune!: Faune
+  private sendDataEvent!: Phaser.Time.TimerEvent
 
   constructor() {
     super('dungeon')
@@ -56,5 +59,40 @@ export default class Dungeon extends GameScene {
       undefined,
       this
     )
+
+    this.sendDataEvent = this.time.addEvent({
+      delay: 1000,
+      callback: this.sendData,
+      loop: true
+    })
+
+    this.events.on(Phaser.Scenes.Events.DESTROY, () => {
+      this.sendDataEvent?.destroy()
+    })
+  }
+
+  private sendData = () => {
+    const payload = this.findEntitiesByName('lizard')
+      .map(e => ({
+        id: e.id,
+        x: e.engine.x,
+        y: e.engine.y,
+        direction: e.movement.direction
+      }))
+      .reduce(
+        (prev, curr) => ({
+          ...prev,
+          [curr.id]: {
+            coord: {
+              x: curr.x,
+              y: curr.y
+            },
+            direction: curr.direction,
+            is_collided: false
+          }
+        }),
+        {}
+      )
+    emitter.emit(SEND_DATA, payload)
   }
 }

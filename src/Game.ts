@@ -1,4 +1,5 @@
-import { emitter } from '@/events/bus'
+import { emitter } from '@/events/hub'
+import { SEND_DATA } from '@/events/types'
 import Phaser from 'phaser'
 import { io, Socket } from 'socket.io-client'
 
@@ -10,12 +11,12 @@ class Game extends Phaser.Game {
   }
 
   protected start(): void {
-    this.socket = io('http://localhost:4000')
-    emitter.on('message', this.handleMessage)
+    this.socket = io('http://localhost:4000', { transports: ['websocket'] })
+    emitter.on(SEND_DATA, this.sendData)
     super.start()
   }
 
-  private handleMessage = (data: unknown) => {
+  private sendData = (data: unknown) => {
     this.socket.emit('message', data)
   }
 
@@ -23,7 +24,7 @@ class Game extends Phaser.Game {
     if (this.socket) {
       this.socket.disconnect()
     }
-    emitter.off('message', this.handleMessage)
+    emitter.off(SEND_DATA, this.sendData)
     super.destroy(removeCanvas, noReturn)
   }
 }
