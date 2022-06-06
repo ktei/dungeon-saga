@@ -1,8 +1,9 @@
 import { createAnims } from '@/anims/animsFactory'
 import '@/characters/faune/Faune'
 import Faune from '@/characters/faune/Faune'
+import { Direction } from '@/components/types'
 import { emitter } from '@/events/hub'
-import { SEND_DATA } from '@/events/types'
+import { RECEIVE_DATA, SEND_DATA } from '@/events/types'
 import Lizard from '@/npcs/lizard/Lizard'
 import GameScene from '@/scenes/GameScene'
 import Phaser from 'phaser'
@@ -61,13 +62,23 @@ export default class Dungeon extends GameScene {
     )
 
     this.sendDataEvent = this.time.addEvent({
-      delay: 1000,
+      delay: 200,
       callback: this.sendData,
       loop: true
     })
 
     this.events.on(Phaser.Scenes.Events.DESTROY, () => {
       this.sendDataEvent?.destroy()
+    })
+
+    emitter.on(RECEIVE_DATA, (data: unknown) => {
+      const directions = data as Record<number, Direction>
+      Object.keys(directions).forEach(id => {
+        const e = this.findEntityById(parseInt(id, 10))
+        if (e) {
+          e.movement.direction = directions[parseInt(id, 10)]
+        }
+      })
     })
   }
 
@@ -77,7 +88,8 @@ export default class Dungeon extends GameScene {
         id: e.id,
         x: e.engine.x,
         y: e.engine.y,
-        direction: e.movement.direction
+        direction: e.movement.direction,
+        isCollided: e.movement.isCollided
       }))
       .reduce(
         (prev, curr) => ({
@@ -88,7 +100,7 @@ export default class Dungeon extends GameScene {
               y: curr.y
             },
             direction: curr.direction,
-            is_collided: false
+            is_collided: curr.isCollided ?? false
           }
         }),
         {}

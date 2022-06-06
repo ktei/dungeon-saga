@@ -18,8 +18,14 @@ export enum Direction {
 export interface Movement {
   speed: number
   direction: Direction
+  isCollided?: boolean
 }
 
 export interface PlayerInput {
   direction: Direction
+}
+
+export type Coordinate = {
+  x: number
+  y: number
 }
