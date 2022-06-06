@@ -1,5 +1,5 @@
-import { UserConfig } from 'vite'
 import path from 'path'
+import { UserConfig } from 'vite'
 
 const config: UserConfig = {
   resolve: {
@@ -9,7 +9,8 @@ const config: UserConfig = {
       '@/components': path.join(__dirname, 'src', 'components'),
       '@/npcs': path.join(__dirname, 'src', 'npcs'),
       '@/scenes': path.join(__dirname, 'src', 'scenes'),
-      '@/constants': path.join(__dirname, 'src', 'constants')
+      '@/constants': path.join(__dirname, 'src', 'constants'),
+      '@/events': path.join(__dirname, 'src', 'events')
     }
   }
 }

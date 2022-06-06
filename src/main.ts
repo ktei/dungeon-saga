@@ -1,6 +1,7 @@
 import Dungeon from '@/scenes/Dungeon'
 import Phaser from 'phaser'
 import Preloader from '@/scenes/Preloader'
+import Game from './Game'
 
 const config: Phaser.Types.Core.GameConfig = {
   type: Phaser.AUTO,
@@ -20,4 +21,4 @@ const config: Phaser.Types.Core.GameConfig = {
   }
 }
 
-export default new Phaser.Game(config)
+export default new Game(config)
