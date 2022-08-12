@@ -23,8 +23,8 @@ type Request = {
   collision?: {
     collidedWith: 'Lizard' | 'Wall'
     id?: number
-    collisionX: number
-    collisionY: number
+    x: number
+    y: number
   }
 }[]
 ```
