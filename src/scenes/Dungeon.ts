@@ -2,8 +2,9 @@ import { createAnims } from '@/anims/animsFactory'
 import '@/characters/faune/Faune'
 import Faune from '@/characters/faune/Faune'
 import { Direction } from '@/components/types'
+import { RECEIVE_DATA, SEND_DATA } from '@/events/constants'
 import { emitter } from '@/events/hub'
-import { RECEIVE_DATA, SEND_DATA } from '@/events/types'
+import { GameData } from '@/events/payloads'
 import Lizard from '@/npcs/lizard/Lizard'
 import GameScene from '@/scenes/GameScene'
 import Phaser from 'phaser'
@@ -83,28 +84,21 @@ export default class Dungeon extends GameScene {
   }
 
   private sendData = () => {
-    const payload = this.findEntitiesByName('lizard')
-      .map(e => ({
-        id: e.id,
-        x: e.engine.x,
-        y: e.engine.y,
-        direction: e.movement.direction,
-        isCollided: e.movement.isCollided
-      }))
-      .reduce(
-        (prev, curr) => ({
-          ...prev,
-          [curr.id]: {
-            coord: {
-              x: curr.x,
-              y: curr.y
-            },
-            direction: curr.direction,
-            is_collided: curr.isCollided ?? false
+    const payload: GameData = this.findEntitiesByName('lizard').map(e => ({
+      id: e.id,
+      name: e.name,
+      x: e.engine.x,
+      y: e.engine.y,
+      direction: e.movement.direction,
+      collision: e.movement.collision
+        ? {
+            id: e.movement.collision.id,
+            collidedWith: e.movement.collision.collidedWith,
+            x: e.movement.collision.coord.x,
+            y: e.movement.collision.coord.y
           }
-        }),
-        {}
-      )
+        : undefined
+    }))
     emitter.emit(SEND_DATA, payload)
   }
 }

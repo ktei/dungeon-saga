@@ -1,10 +1,10 @@
+import { GameObjectName } from '@/components/names'
+
 export type Sprite = Phaser.Physics.Arcade.Sprite
 export type Image = Phaser.Physics.Arcade.Image
 export type GameObject = Sprite | Image
 
 export enum Direction {
-  // eslint-disable-next-line no-unused-vars
-  NONE = -1,
   // eslint-disable-next-line no-unused-vars
   UP,
   // eslint-disable-next-line no-unused-vars
@@ -18,7 +18,11 @@ export enum Direction {
 export interface Movement {
   speed: number
   direction: Direction
-  isCollided?: boolean
+  collision?: {
+    collidedWith: GameObjectName
+    id?: number
+    coord: Coordinate
+  }
 }
 
 export interface PlayerInput {

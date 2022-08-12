@@ -1,9 +1,21 @@
+import { EntityName, GameObjectName } from '@/components/names'
 import { Direction } from '@/components/types'
 
-export type GameObjectState = {
-  coord: Record<'x' | 'y', number>
-  direction: Direction
-  is_collided: boolean
-}
+export type GameData = Array<EntityData>
 
-export type GameData = Record<number, GameObjectState>
+export type EntityData = {
+  id: number
+  name: EntityName
+  x: number
+  y: number
+  direction: Direction
+  state?: {
+    hitPoints: number
+  }
+  collision?: {
+    collidedWith: GameObjectName
+    id?: number
+    x: number
+    y: number
+  }
+}
