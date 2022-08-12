@@ -1,16 +1,17 @@
 import Component from '@/components/Component'
 import { getNextId } from '@/components/helpers'
+import { EntityName } from '@/components/names'
 import {
   Direction,
+  GameObject,
   Movement,
-  PlayerInput,
-  GameObject
+  PlayerInput
 } from '@/components/types'
 import { FAKE_SESSION_ID } from '@/constants/client'
 
 export type Metadata = {
   id: number
-  name?: string
+  name: EntityName
 }
 
 export abstract class Entity<T extends GameObject> implements Component {
@@ -19,15 +20,15 @@ export abstract class Entity<T extends GameObject> implements Component {
   private components: Component[]
   private metadata: Metadata
 
-  constructor(private _engine: T, metadata?: Omit<Metadata, 'id'>) {
+  constructor(private _engine: T, name: EntityName) {
     this.movement = {
       speed: 0,
-      direction: Direction.NONE
+      direction: Direction.DOWN
     }
     this.components = []
     this.metadata = {
       id: getNextId(FAKE_SESSION_ID),
-      ...metadata
+      name
     }
   }
 
@@ -35,7 +36,7 @@ export abstract class Entity<T extends GameObject> implements Component {
     return this.metadata.id
   }
 
-  public get name(): string | undefined {
+  public get name(): EntityName {
     return this.metadata.name
   }
 

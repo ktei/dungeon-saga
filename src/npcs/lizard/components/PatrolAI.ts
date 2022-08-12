@@ -4,7 +4,7 @@ import { Coordinate, Sprite } from '@/components/types'
 import { Math } from 'phaser'
 
 /**
- * This comopnent controls how NPCs patrol. Upon receiving the data
+ * This component controls how NPCs patrol. Upon receiving the data
  * from server, we alternate the NPC's direction based on the data.
  */
 export default class PatrolAI extends EntityComponent<Sprite> {
@@ -30,7 +30,10 @@ export default class PatrolAI extends EntityComponent<Sprite> {
     // })
   }
 
-  private handleTileCollision = (obj1: Phaser.GameObjects.GameObject) => {
+  private handleTileCollision = (
+    obj1: Phaser.GameObjects.GameObject,
+    obj2: Phaser.Tilemaps.Tile
+  ) => {
     if (obj1 !== this.entity.engine) {
       return
     }
@@ -39,7 +42,13 @@ export default class PatrolAI extends EntityComponent<Sprite> {
     // Mark the entity collided with tile; this will give
     // server the decision making knowledge when choosing a different
     // direction upon collision
-    this.entity.movement.isCollided = true
+    this.entity.movement.collision = {
+      collidedWith: 'wall',
+      coord: {
+        x: obj2.x,
+        y: obj2.y
+      }
+    }
   }
 
   public update(): void {
@@ -60,7 +69,9 @@ export default class PatrolAI extends EntityComponent<Sprite> {
       // this is not the most accurate way to detect collision,
       // but Phaser doesn't give me an easy collision exit
       // callback so right now this is all that I have
-      this.entity.movement.isCollided = distance === 0
+      if (distance === 0) {
+        this.entity.movement.collision = undefined
+      }
     }
     // if (this.collidedTile) {
     //   const stillCollided = this.entity.engine.scene.physics.overlapTiles(

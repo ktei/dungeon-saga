@@ -1,6 +1,6 @@
 import { Direction } from '@/components/types'
+import { RECEIVE_DATA, SEND_DATA } from '@/events/constants'
 import { emitter } from '@/events/hub'
-import { RECEIVE_DATA, SEND_DATA } from '@/events/types'
 import Phaser from 'phaser'
 import { io, Socket } from 'socket.io-client'
 

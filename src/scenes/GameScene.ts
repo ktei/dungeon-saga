@@ -24,6 +24,10 @@ export default abstract class GameScene extends Phaser.Scene {
     })
   }
 
+  protected getAllEntities(): readonly Entity<GameObject>[] {
+    return Array.from(this.entities.values())
+  }
+
   protected findEntityById(id: number): Entity<GameObject> | undefined {
     return this.entities.get(id)
   }
