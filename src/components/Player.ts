@@ -50,7 +50,7 @@ export default class Player extends EntityComponent<Sprite> {
 
   private throwKnife(): void {
     const knife = this.entity.getState<KnifeState>('knife')
-    knife.shouldThrow = true
+    knife.canThrow = true
     this.entity.setState<KnifeState>('knife', knife)
   }
 

@@ -4,11 +4,12 @@ import { Direction, GameObject, KnifeState } from '@/components/types'
 
 export default class Knife extends EntityComponent<GameObject> {
   private _knives!: Phaser.Physics.Arcade.Group
+  private isThrowing = false
 
   constructor(e: Entity<GameObject>, numberOfKnives = 3) {
     super(e)
     e.setState<KnifeState>('knife', {
-      shouldThrow: false,
+      canThrow: false,
       numberOfKnives
     })
 
@@ -32,14 +33,15 @@ export default class Knife extends EntityComponent<GameObject> {
 
   public update(): void {
     if (!this.entity.engine) return
+    if (this.isThrowing) return
 
     const state = this.entity.getState<KnifeState>('knife')
-    if (state.shouldThrow && state.numberOfKnives > 0) {
+    if (state.canThrow && state.numberOfKnives > 0) {
+      this.isThrowing = true
       this.throwKnife()
-      this.entity.setState<KnifeState>('knife', {
-        shouldThrow: false,
-        numberOfKnives: state.numberOfKnives - 1
-      })
+      state.canThrow = false
+      this.entity.setState<KnifeState>('knife', state)
+      this.isThrowing = false
     }
   }
 
@@ -62,12 +64,12 @@ export default class Knife extends EntityComponent<GameObject> {
     }
 
     const angle = vec.angle()
-    console.log(angle)
     const knife = this._knives.get(
       this.entity.engine.x,
       this.entity.engine.y,
       'knife'
     ) as Phaser.Physics.Arcade.Image
+
     if (!knife) {
       return
     }
@@ -77,5 +79,8 @@ export default class Knife extends EntityComponent<GameObject> {
     knife.x += vec.x * 16
     knife.y += vec.y * 16
     knife.setVelocity(vec.x * 300, vec.y * 300)
+    const state = this.entity.getState<KnifeState>('knife')
+    state.numberOfKnives -= 1
+    this.entity.setState<KnifeState>('knife', state)
   }
 }

@@ -30,7 +30,7 @@ export type Movement = {
 }
 
 export type PlayerInput = {
-  direction: Direction
+  direction?: Direction
   spaceDown?: boolean
 }
 
@@ -40,6 +40,6 @@ export type Coordinate = {
 }
 
 export type KnifeState = {
-  shouldThrow: boolean
+  canThrow: boolean
   numberOfKnives: number
 }
