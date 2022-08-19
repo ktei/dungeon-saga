@@ -4,6 +4,10 @@ export type Sprite = Phaser.Physics.Arcade.Sprite
 export type Image = Phaser.Physics.Arcade.Image
 export type GameObject = Sprite | Image
 
+export interface World {
+  get wallsLayer(): Phaser.Tilemaps.TilemapLayer
+}
+
 export enum Direction {
   // eslint-disable-next-line no-unused-vars
   UP,
@@ -15,7 +19,7 @@ export enum Direction {
   LEFT
 }
 
-export interface Movement {
+export type Movement = {
   speed: number
   direction: Direction
   collision?: {
@@ -25,11 +29,17 @@ export interface Movement {
   }
 }
 
-export interface PlayerInput {
+export type PlayerInput = {
   direction: Direction
+  spaceDown?: boolean
 }
 
 export type Coordinate = {
   x: number
   y: number
+}
+
+export type KnifeState = {
+  shouldThrow: boolean
+  numberOfKnives: number
 }

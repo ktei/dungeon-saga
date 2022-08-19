@@ -11,7 +11,7 @@ export default class Input extends EntityComponent<GameObject> {
   }
 
   public update(): void {
-    this.entity.input = this.entity.input ?? { direction: Direction.NONE }
+    this.entity.input = this.entity.input ?? { direction: Direction.DOWN }
     if (this.cursors.up.isDown) {
       this.entity.input.direction = Direction.UP
     } else if (this.cursors.right.isDown) {
@@ -20,8 +20,9 @@ export default class Input extends EntityComponent<GameObject> {
       this.entity.input.direction = Direction.DOWN
     } else if (this.cursors.left.isDown) {
       this.entity.input.direction = Direction.LEFT
-    } else {
-      this.entity.input.direction = Direction.NONE
+    }
+    if (Phaser.Input.Keyboard.JustDown(this.cursors.space)) {
+      this.entity.input.spaceDown = true
     }
   }
 }

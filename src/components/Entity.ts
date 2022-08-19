@@ -19,6 +19,7 @@ export abstract class Entity<T extends GameObject> implements Component {
   public input?: PlayerInput
   private components: Component[]
   private metadata: Metadata
+  private states: Map<string, unknown> = new Map<string, unknown>()
 
   constructor(private _engine: T, name: EntityName) {
     this.movement = {
@@ -50,6 +51,17 @@ export abstract class Entity<T extends GameObject> implements Component {
 
   protected addComponent(component: Component): void {
     this.components.push(component)
+  }
+
+  public setState<T>(key: string, state: T): void {
+    this.states.set(key, state)
+  }
+
+  public getState<T>(key: string): T {
+    if (this.states.has(key)) {
+      return this.states.get(key) as T
+    }
+    throw new Error(`State with key: ${key} cannot be found.`)
   }
 
   public destroy(fromScene?: boolean): void {

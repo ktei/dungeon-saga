@@ -1,7 +1,7 @@
 import { createAnims } from '@/anims/animsFactory'
 import '@/characters/faune/Faune'
 import Faune from '@/characters/faune/Faune'
-import { Direction } from '@/components/types'
+import { Direction, World } from '@/components/types'
 import { RECEIVE_DATA, SEND_DATA } from '@/events/constants'
 import { emitter } from '@/events/hub'
 import { GameData } from '@/events/payloads'
@@ -9,9 +9,10 @@ import Lizard from '@/npcs/lizard/Lizard'
 import GameScene from '@/scenes/GameScene'
 import Phaser from 'phaser'
 
-export default class Dungeon extends GameScene {
+export default class Dungeon extends GameScene implements World {
   private faune!: Faune
   private sendDataEvent!: Phaser.Time.TimerEvent
+  private _wallsLayer!: Phaser.Tilemaps.TilemapLayer
 
   constructor() {
     super('dungeon')
@@ -24,8 +25,8 @@ export default class Dungeon extends GameScene {
     const tileset = map.addTilesetImage('dungeon', 'tiles', 16, 16)
 
     map.createLayer('Ground', tileset)
-    const wallsLayer = map.createLayer('Walls', tileset)
-    wallsLayer.setCollisionByProperty({ collides: true })
+    this._wallsLayer = map.createLayer('Walls', tileset)
+    this._wallsLayer.setCollisionByProperty({ collides: true })
 
     this.addEntities((this.faune = new Faune(this, 128, 128)))
 
@@ -52,8 +53,8 @@ export default class Dungeon extends GameScene {
       -150
     )
 
-    this.physics.add.collider(this.faune.engine, wallsLayer)
-    this.physics.add.collider(lizardsGroup, wallsLayer)
+    this.physics.add.collider(this.faune.engine, this._wallsLayer)
+    this.physics.add.collider(lizardsGroup, this._wallsLayer)
     this.physics.add.collider(
       lizardsGroup,
       this.faune.engine,
@@ -81,6 +82,10 @@ export default class Dungeon extends GameScene {
         }
       })
     })
+  }
+
+  public get wallsLayer(): Phaser.Tilemaps.TilemapLayer {
+    return this._wallsLayer
   }
 
   private sendData = () => {

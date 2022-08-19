@@ -1,5 +1,5 @@
 import { EntityComponent } from '@/components/Component'
-import { Direction, Sprite } from '@/components/types'
+import { Direction, KnifeState, Sprite } from '@/components/types'
 
 export default class Player extends EntityComponent<Sprite> {
   public update(): void {
@@ -23,6 +23,9 @@ export default class Player extends EntityComponent<Sprite> {
       default:
         this.stop()
     }
+    if (input.spaceDown) {
+      this.throwKnife()
+    }
   }
 
   private moveUp(): void {
@@ -43,6 +46,12 @@ export default class Player extends EntityComponent<Sprite> {
   private moveLeft(): void {
     this.entity.movement.direction = Direction.LEFT
     this.entity.movement.speed = 100
+  }
+
+  private throwKnife(): void {
+    const knife = this.entity.getState<KnifeState>('knife')
+    knife.shouldThrow = true
+    this.entity.setState<KnifeState>('knife', knife)
   }
 
   private stop(): void {

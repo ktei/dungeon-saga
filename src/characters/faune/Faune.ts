@@ -1,6 +1,7 @@
 import FauneAnimation from '@/characters/faune/components/FauneAnimation'
 import { Entity } from '@/components/Entity'
 import Input from '@/components/Input'
+import Knife from '@/components/Knife'
 import Movement from '@/components/Movement'
 import Player from '@/components/Player'
 import { Direction, Sprite } from '@/components/types'
@@ -14,5 +15,6 @@ export default class Faune extends Entity<Sprite> {
     this.addComponent(new Player(this))
     this.addComponent(new Movement(this))
     this.addComponent(new FauneAnimation(this))
+    this.addComponent(new Knife(this))
   }
 }
