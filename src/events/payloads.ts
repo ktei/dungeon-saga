@@ -19,3 +19,8 @@ export type EntityData = {
     y: number
   }
 }
+
+export type ArcadeGroupAddedEvent = {
+  name: string
+  group: Phaser.Physics.Arcade.Group
+}

@@ -2,9 +2,9 @@ import { createAnims } from '@/anims/animsFactory'
 import '@/characters/faune/Faune'
 import Faune from '@/characters/faune/Faune'
 import { Direction, World } from '@/components/types'
-import { RECEIVE_DATA, SEND_DATA } from '@/events/constants'
+import { ARCADE_GROUP_ADDED, RECEIVE_DATA, SEND_DATA } from '@/events/constants'
 import { emitter } from '@/events/hub'
-import { GameData } from '@/events/payloads'
+import { ArcadeGroupAddedEvent, GameData } from '@/events/payloads'
 import Lizard from '@/npcs/lizard/Lizard'
 import GameScene from '@/scenes/GameScene'
 import Phaser from 'phaser'
@@ -28,10 +28,8 @@ export default class Dungeon extends GameScene implements World {
     this._wallsLayer = map.createLayer('Walls', tileset)
     this._wallsLayer.setCollisionByProperty({ collides: true })
 
-    this.addEntities((this.faune = new Faune(this, 128, 128)))
-
     // put some lizards
-    const lizardsGroup = this.physics.add.group({
+    const lizards = this.physics.add.group({
       classType: Phaser.Physics.Arcade.Sprite,
       createCallback: g => {
         const lizard = g as Phaser.Physics.Arcade.Sprite
@@ -39,9 +37,33 @@ export default class Dungeon extends GameScene implements World {
       }
     })
 
+    emitter.on(ARCADE_GROUP_ADDED, e => {
+      console.log('ARCADE_GROUP_ADDED')
+      const payload = e as ArcadeGroupAddedEvent
+      if (payload.name === 'knives') {
+        this.physics.add.collider(
+          payload.group,
+          lizards,
+          (
+            obj1: Phaser.GameObjects.GameObject,
+            obj2: Phaser.GameObjects.GameObject
+          ) => {
+            payload.group.killAndHide(obj1)
+            lizards.killAndHide(obj2)
+            lizards.killAndHide(obj2)
+            ;(obj2 as Phaser.Physics.Arcade.Sprite).disableBody(true, true)
+          },
+          undefined,
+          this
+        )
+      }
+    })
+
+    this.addEntities((this.faune = new Faune(this, 128, 128)))
+
     this.addEntities(
-      new Lizard(lizardsGroup, 256, 256),
-      new Lizard(lizardsGroup, 450, 312)
+      new Lizard(lizards, 256, 256),
+      new Lizard(lizards, 450, 312)
     )
 
     this.cameras.main.startFollow(
@@ -54,9 +76,9 @@ export default class Dungeon extends GameScene implements World {
     )
 
     this.physics.add.collider(this.faune.engine, this._wallsLayer)
-    this.physics.add.collider(lizardsGroup, this._wallsLayer)
+    this.physics.add.collider(lizards, this._wallsLayer)
     this.physics.add.collider(
-      lizardsGroup,
+      lizards,
       this.faune.engine,
       undefined,
       undefined,

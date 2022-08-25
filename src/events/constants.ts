@@ -1,2 +1,3 @@
 export const SEND_DATA = 'SEND_DATA'
 export const RECEIVE_DATA = 'RECEIVE_DATA'
+export const ARCADE_GROUP_ADDED = 'ARCADE_GROUP_ADDED'

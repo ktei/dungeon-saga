@@ -1,6 +1,8 @@
 import { EntityComponent } from '@/components/Component'
 import { Entity } from '@/components/Entity'
 import { Direction, GameObject, KnifeState } from '@/components/types'
+import { ARCADE_GROUP_ADDED } from '@/events/constants'
+import { emitter } from '@/events/hub'
 
 export default class Knife extends EntityComponent<GameObject> {
   private _knives!: Phaser.Physics.Arcade.Group
@@ -16,6 +18,11 @@ export default class Knife extends EntityComponent<GameObject> {
     this._knives = this.entity.engine.scene.physics.add.group({
       classType: Phaser.Physics.Arcade.Image,
       maxSize: 1
+    })
+
+    emitter.emit(ARCADE_GROUP_ADDED, {
+      name: 'knives',
+      group: this._knives
     })
 
     this.entity.engine.scene.physics.add.collider(
