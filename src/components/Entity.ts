@@ -53,8 +53,22 @@ export abstract class Entity<T extends GameObject> implements Component {
     this.components.push(component)
   }
 
-  public setState<T>(key: string, state: T): void {
+  public registerState<T>(key: string, state: T): void {
+    if (this.states.has(key)) {
+      throw new Error('Duplicate state is not allowed')
+    }
     this.states.set(key, state)
+  }
+
+  public updateState<T>(key: string, update: (_state: T) => T): void {
+    if (!this.states.has(key)) {
+      throw new Error(
+        `State with key ${key} does not exist. Call 'registerState' register it first.`
+      )
+    }
+    const s = this.states.get(key) as T
+    const newState = update(s)
+    this.states.set(key, newState)
   }
 
   public getState<T>(key: string): T {

@@ -8,7 +8,7 @@ export default class Knife extends EntityComponent<GameObject> {
 
   constructor(e: Entity<GameObject>, numberOfKnives = 3) {
     super(e)
-    e.setState<KnifeState>('knife', {
+    e.registerState<KnifeState>('knife', {
       canThrow: false,
       numberOfKnives
     })
@@ -39,8 +39,10 @@ export default class Knife extends EntityComponent<GameObject> {
     if (state.canThrow && state.numberOfKnives > 0) {
       this.isThrowing = true
       this.throwKnife()
-      state.canThrow = false
-      this.entity.setState<KnifeState>('knife', state)
+      this.entity.updateState<KnifeState>('knife', state => ({
+        ...state,
+        canThrow: false
+      }))
       this.isThrowing = false
     }
   }
@@ -79,8 +81,9 @@ export default class Knife extends EntityComponent<GameObject> {
     knife.x += vec.x * 16
     knife.y += vec.y * 16
     knife.setVelocity(vec.x * 300, vec.y * 300)
-    const state = this.entity.getState<KnifeState>('knife')
-    state.numberOfKnives -= 1
-    this.entity.setState<KnifeState>('knife', state)
+    this.entity.updateState<KnifeState>('knife', state => ({
+      ...state,
+      numberOfKnives: state.numberOfKnives - 1
+    }))
   }
 }
